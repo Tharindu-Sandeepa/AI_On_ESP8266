@@ -5,7 +5,7 @@
 
 const char* ssid = "thari";
 const char* password = "12345678";
-const char* Gemini_Token = "AIzaSyD6O2MQ5yKAtAhRwMuxjE3-mR5BE2W-rkY";
+const char* Gemini_Token = "Gemini_api_key"; // Put your gemini API key
 const char* Gemini_Max_Tokens = "100";
 String res = "";
 
@@ -18,7 +18,7 @@ void setup() {
   while (!Serial)
     ;
 
-  // wait for WiFi connection
+
   WiFi.begin(ssid, password);
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -50,7 +50,7 @@ void loop()
   Serial.println(res);
 
   WiFiClientSecure client;
-  client.setInsecure();  // Use for testing purposes only
+  client.setInsecure();  
   HTTPClient http;
 
   if (http.begin(client, "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + (String)Gemini_Token)) {  // HTTPS
@@ -66,7 +66,7 @@ void loop()
       deserializeJson(doc, payload);
       String Answer = doc["candidates"][0]["content"]["parts"][0]["text"];
 
-      // For Filtering out Special Characters, WhiteSpaces and NewLine Characters
+      // Filter the responce
       Answer.trim();
       String filteredAnswer = "";
       for (size_t i = 0; i < Answer.length(); i++) {
